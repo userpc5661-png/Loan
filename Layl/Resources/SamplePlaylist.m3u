@@ -1,0 +1,13 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="layl.cinema" tvg-name="ليل سينما" group-title="سينما",ليل سينما
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 tvg-id="layl.drama" tvg-logo="" group-title="دراما",ليل دراما
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 tvg-name="Sintel" group-title="أفلام",سينتل
+https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4
+#EXTINF:-1 tvg-name="Bunny" group-title="أفلام",الأرنب الكبير
+https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+#EXTINF:-1 group-title="مسلسلات",حكاية الليل S01E01
+https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4
+#EXTINF:-1 group-title="مسلسلات",حكاية الليل S01E02
+https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
