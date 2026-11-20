@@ -1,0 +1,78 @@
+name: Build unsigned IPA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ipa:
+    runs-on: macos-26
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.6"
+
+      - name: Confirm SDK
+        run: |
+          set -euo pipefail
+          if [ ! -d /Applications/Xcode_26.6.app ]; then
+            sudo xcode-select -s /Applications/Xcode.app
+          fi
+          xcode-select -p
+          xcodebuild -version
+          xcodebuild -showsdks | grep -E 'iphoneos' || true
+
+      - name: Build Release for generic iOS device
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -project Layl.xcodeproj \
+            -scheme Layl \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "${RUNNER_TEMP}/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+          APP="$(find "${RUNNER_TEMP}/DerivedData/Build/Products" -type d -name 'Layl.app' | head -n 1)"
+          test -n "${APP}"
+          test -d "${APP}"
+          rm -rf Payload
+          mkdir -p Payload
+          cp -R "${APP}" Payload/Layl.app
+          rm -f Layl.ipa
+          zip -r -y Layl.ipa Payload
+          unzip -l Layl.ipa | head
+          ls -lh Layl.ipa
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Layl-ipa
+          path: Layl.ipa
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: Attach IPA to a GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0-build.${{ github.run_number }}
+          name: Layl v1.0.0-build.${{ github.run_number }}
+          make_latest: false
+          prerelease: true
+          body: |
+            Unsigned Release build of Layl for a generic iOS device.
+            This IPA is not code-signed. Sideload it with a tool that accepts unsigned or re-signed packages.
+          files: Layl.ipa
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
