@@ -366,7 +366,7 @@ private struct XtreamVOD: Decodable {
         streamID = (try? container.decode(FlexString.self, forKey: .streamID))?.value ?? ""
         icon = (try? container.decode(String.self, forKey: .icon)) ?? ""
         categoryID = (try? container.decode(FlexString.self, forKey: .categoryID))?.value ?? ""
-        container = (try? container.decode(String.self, forKey: .container)) ?? "mp4"
+        self.container = (try? container.decode(String.self, forKey: .container)) ?? "mp4"
         plot = (try? container.decode(String.self, forKey: .plot)) ?? ""
         year = (try? container.decode(FlexString.self, forKey: .year))?.value ?? ""
         genre = (try? container.decode(String.self, forKey: .genre)) ?? ""
@@ -441,7 +441,7 @@ private struct XtreamEpisode: Decodable {
         id = (try? container.decode(FlexString.self, forKey: .id))?.value ?? ""
         episodeNum = (try? container.decode(FlexString.self, forKey: .episodeNum))?.value ?? ""
         title = (try? container.decode(String.self, forKey: .title)) ?? ""
-        container = (try? container.decode(String.self, forKey: .container)) ?? "mp4"
+        self.container = (try? container.decode(String.self, forKey: .container)) ?? "mp4"
         let info = try? container.decode(Info.self, forKey: .info)
         plot = info?.plot ?? ""
         duration = info?.duration ?? ""

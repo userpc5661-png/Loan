@@ -267,7 +267,7 @@ final class PiPController: NSObject, AVPictureInPictureControllerDelegate {
 
     func attach(layer: AVPlayerLayer) {
         guard controller == nil, AVPictureInPictureController.isPictureInPictureSupported() else { return }
-        let created = AVPictureInPictureController(playerLayer: layer)
+        guard let created = AVPictureInPictureController(playerLayer: layer) else { return }
         created.delegate = self
         created.canStartPictureInPictureAutomaticallyFromInline = true
         controller = created

@@ -58,7 +58,7 @@ final class DownloadCenter {
             return
         }
         let isHLS = remote.absoluteString.lowercased().contains(".m3u8")
-        var item = DownloadItem(
+        let item = DownloadItem(
             mediaID: mediaID,
             title: title,
             posterAsset: posterAsset ?? "",
