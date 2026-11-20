@@ -15,22 +15,22 @@ final class AppModel {
     private(set) var profiles: [Profile] = []
     private var playlistCatalogs: [UUID: Catalog] = [:]
 
-    var activeProfileID: UUID {
+    var activeProfileID: UUID = UUID() {
         didSet { defaults.set(activeProfileID.uuidString, forKey: Keys.profile) }
     }
-    var showDemo: Bool {
+    var showDemo: Bool = true {
         didSet { defaults.set(showDemo, forKey: Keys.demo); rebuild() }
     }
-    var autoplayNext: Bool {
+    var autoplayNext: Bool = true {
         didSet { defaults.set(autoplayNext, forKey: Keys.autoplay) }
     }
-    var quality: PlaybackQuality {
+    var quality: PlaybackQuality = .auto {
         didSet { defaults.set(quality.rawValue, forKey: Keys.quality) }
     }
-    var didFinishOnboarding: Bool {
+    var didFinishOnboarding: Bool = false {
         didSet { defaults.set(didFinishOnboarding, forKey: Keys.onboarding) }
     }
-    var unreadNotifications: Bool {
+    var unreadNotifications: Bool = true {
         didSet { defaults.set(unreadNotifications, forKey: Keys.unread) }
     }
     var playerRequest: PlayerRequest?
